@@ -41,6 +41,7 @@ userSchema.methods.isEmailTaken = async function (email) {
 };
 userSchema.methods.isPasswordMatch = async function (password) {
   const user = this;
+  console.log("soanksnn son slndlk kdn kns", password, user.password);
   return await bcrypt.compare(password, user.password);
 };
 

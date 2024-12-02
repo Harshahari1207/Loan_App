@@ -1,4 +1,5 @@
 const UserService = require("../service/userService");
+const { login } = require("../service/authService");
 const httpStatus = require("http-status");
 
 class AuthController {
@@ -8,14 +9,18 @@ class AuthController {
       console.log(result);
       res.status(201).send({ message: "Registered", result });
     } catch (error) {
-      res
-        .status(501)
-        .send({ error: error.message });
+      res.status(501).send({ error: error.message });
     }
   }
 
-  login(req, res) {
-    res.send("Login");
+  async login(req, res) {
+    try {
+      const result = await login(req.body);
+      console.log(result);
+      res.status(200).send(result);
+    } catch (error) {
+      res.status(501).send({ error: error.message });
+    }
   }
 }
 
