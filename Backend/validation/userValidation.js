@@ -25,6 +25,25 @@ class UserValidation {
       password: Joi.string().custom(this.password).required(),
     });
   }
+  validate(data, type) {
+    let schema;
+
+    if (type === "register") {
+      schema = this.register();
+    } else if (type === "login") {
+      schema = this.login();
+    } else {
+      throw new Error("Invalid validation type");
+    }
+
+    const { error, value } = schema.validate(data);
+
+    if (error) {
+      return { error: error.details };
+    }
+
+    return { value };
+  }
 }
 
 module.exports = new UserValidation();
