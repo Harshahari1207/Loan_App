@@ -1,6 +1,5 @@
 const UserService = require("../service/userService");
 const { login } = require("../service/authService");
-const httpStatus = require("http-status");
 
 class AuthController {
   async register(req, res) {
