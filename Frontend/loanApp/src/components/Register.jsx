@@ -48,7 +48,7 @@ const Register = () => {
     };
     try {
       const response = await axios.post(
-        "https://loan-app-i6lc.onrender.com/api/auth/register",
+        "http://localhost:8082/api/auth/register",
         data
       );
       if (response.status === 201) {
