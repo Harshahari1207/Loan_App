@@ -11,6 +11,7 @@ class AuthController {
       console.log(tokens, "inside controller");
       res.status(201).send({ message: "Registration successful", result, tokens });
     } catch (error) {
+      console.log(error);
       res.status(501).send({ error: error.message });
     }
   }

@@ -40,7 +40,6 @@ const Register = () => {
     }
 
     setErrorMessage("");
-    formData.id = Math.floor(Math.random() * 1000);
     const data = {
       name: formData.name,
       email: formData.email,
@@ -51,6 +50,7 @@ const Register = () => {
         "http://localhost:8082/api/auth/register",
         data
       );
+      console.log(response, "Inside the register function")
       if (response.status === 201) {
         console.log(response);
         history("/");

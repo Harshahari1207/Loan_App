@@ -39,12 +39,12 @@ const Login = () => {
         formData
       );
       if ((response.status = 200)) {
+        setErrorMessage("")
         history("/");
       } else {
         alert("Invalid credentials");
       }
-      localStorage.setItem("username", response.data.user.username);
-      localStorage.setItem("userId", response.data.user.userId);
+      // localStorage.setItem("username", response.data.user.email);
       console.log(response);
     } catch (error) {
       setErrorMessage("Invalid credentials/Errror logging in" + error);
