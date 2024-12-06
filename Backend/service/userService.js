@@ -10,7 +10,11 @@ class UserService {
     const hashPassword = await this.encryptPassword(password);
     console.log(hashPassword);
     const res = { ...user, password: hashPassword };
-    return await User.create(res);
+    console.log(res, "res in service")
+    const userInstance = new User(res);
+    const finalUser = await userInstance.save();
+    console.log(finalUser, "inside UserService")
+    return  finalUser;
   }
 }
 

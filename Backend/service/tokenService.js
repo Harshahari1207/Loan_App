@@ -15,11 +15,11 @@ class TokenService {
   generateAuthTokens = async (user) => {
       console.log("inside tokenservice");
     const accessTokenExpires = Math.floor(Date.now() / 1000) + 60 * 150;
-    const token = generateToken(
+    const token = this.generateToken(
       user._id,
       accessTokenExpires,
       "access",
-      process.env.JWT_SECRET
+      "secretPass"
     );
     return {
       access: {
