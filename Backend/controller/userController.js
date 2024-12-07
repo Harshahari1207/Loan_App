@@ -10,6 +10,15 @@ class UserController{
           res.status(500).json({ error: error.message });
         }
       };
+
+    getAUser = async (req, res) => {
+        try {
+          const user = await UserService.getAUser(req.params.id);
+          res.status(200).json(user);
+        } catch (error) {
+          res.status(500).json({ error: error.message });
+        }
+      };
 }
 
 module.exports = new UserController();

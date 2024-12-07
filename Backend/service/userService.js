@@ -19,6 +19,9 @@ class UserService {
   async getAllUsers(){
     return await User.find();
   }
+  async getAUser(id){
+    return await User.findById(id);
+  }
 }
 
 module.exports = new UserService();
