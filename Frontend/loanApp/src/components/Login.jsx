@@ -44,7 +44,7 @@ const Login = () => {
       } else {
         alert("Invalid credentials");
       }
-      // localStorage.setItem("username", response.data.user.email);
+      // localStorage.setItem("username", response.data.result.name);
       console.log(response);
     } catch (error) {
       setErrorMessage("Invalid credentials/Errror logging in" + error);

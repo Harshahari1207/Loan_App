@@ -16,6 +16,9 @@ class UserService {
     console.log(finalUser, "inside UserService")
     return  finalUser;
   }
+  async getAllUsers(){
+    return await User.find();
+  }
 }
 
 module.exports = new UserService();
