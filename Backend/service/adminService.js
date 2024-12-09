@@ -5,8 +5,8 @@ class AdminService{
         
         const hashPassword = await bcrypt.hash(data.password, 10);
         const res = { ...data, password: hashPassword };
-        const admin = await Admin.create(res);
-        return admin
+        const admin = new Admin(res);
+        return await admin.save()
     }
 }
 
