@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 // import NavBar from "./NavBar";
 import axios from "axios";
+
 import { useNavigate } from "react-router-dom";
 const Login = () => {
   const history = useNavigate();
@@ -9,6 +10,8 @@ const Login = () => {
     email: "",
     password: "",
   });
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [type, setType] = useState("customer");
 
   const handleChange = (e) => {
     setFormData({
@@ -20,6 +23,27 @@ const Login = () => {
     const specialChars = ["!", "@", "#", "$", "%", "^", "&", "*"];
     return specialChars.some((char) => password.includes(char));
   };
+  const postLogin = async (url) => {
+    try{
+    const response = await axios.post(
+      url,
+      formData
+    );
+    if ((response.status = 200)) {
+      console.log(response)
+      localStorage.setItem("name", response.data.result.name);
+      localStorage.setItem("token", response.data.tokens.access.token);
+      localStorage.setItem("userId", response.data.result._id);
+      localStorage.setItem("type", type);
+      setErrorMessage("")
+      history("/");
+    } else {
+      alert("Invalid credentials");
+    }
+  }catch(error){
+    setErrorMessage("Invalid credentials/Errror logging in" + error);
+  }
+  }
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.password.length < 6) {
@@ -34,18 +58,15 @@ const Login = () => {
     }
     console.log("Form Data Submitted:", formData);
     try {
-      const response = await axios.post(
-        "https://loan-app-i6lc.onrender.com/api/auth/login",
-        formData
-      );
-      if ((response.status = 200)) {
-        setErrorMessage("")
-        history("/");
-      } else {
-        alert("Invalid credentials");
+      if(type === "admin"){
+        await postLogin("http://localhost:8082/api/admin/login");
       }
+      if(type === "customer"){
+        await postLogin("http://localhost:8082/api/auth/login");
+      }
+      
       // localStorage.setItem("username", response.data.result.name);
-      console.log(response);
+      // console.log(response);
     } catch (error) {
       setErrorMessage("Invalid credentials/Errror logging in" + error);
     }
@@ -71,6 +92,10 @@ const Login = () => {
           <div className="col-md-6">
             <div className="card bg-light shadow">
               <div className="card-body">
+                <div className="toggleButton flex">
+                  <button className={`btn ${isAdmin ? "active btn-primary" : ""}`} onClick={() => {setType("admin"); setIsAdmin(true)}}>Admin</button>
+                  <button className={`btn  ${isAdmin ? "" : "active btn-primary"}`}onClick={() => {setType("customer"); setIsAdmin(false)}} >Customer</button>
+                </div>
                 <h3 className="card-title text-center mb-4">Login</h3>
                 <form onSubmit={handleSubmit}>
                   {/* Username */}

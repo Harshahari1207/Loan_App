@@ -8,6 +8,7 @@ class AuthService{
     if (!user || !(await user.isPasswordMatch(data.password))) {
       throw new Error("Invalid email or password");
     }
+    
     return user;
   };
 

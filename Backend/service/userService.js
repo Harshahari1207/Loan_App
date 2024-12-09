@@ -7,9 +7,6 @@ class UserService {
   }
   async createUser(user) {
     const { name, email, password } = user;
-    if(await User.isEmailTaken(email)){
-      throw new Error("Email already taken");
-    }
     const hashPassword = await this.encryptPassword(password);
     console.log(hashPassword);
     const res = { ...user, password: hashPassword };
