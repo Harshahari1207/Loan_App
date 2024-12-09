@@ -1,8 +1,10 @@
 const UserService = require("../service/userService");
-const { login } = require("../service/authService");
+const AuthService = require("../service/authService");
+const AdminService = require("../service/adminService");
+
 const TokenService = require("../service/tokenService");
 class AuthController {
-  async register(req, res) {
+  register = async(req, res) => {
     try {
       console.log(req.body, "inside controller");
       const result = await UserService.createUser(req.body);
@@ -16,9 +18,9 @@ class AuthController {
     }
   }
 
-  async login(req, res) {
+  login = async(req, res) =>{
     try {
-      const result = await login(req.body);
+      const result = await AuthService.login(req.body);
       console.log(result);
       const tokens = await TokenService.generateAuthTokens(result);
       res.status(200).send({ message: "Login successful", result, tokens });
@@ -26,6 +28,28 @@ class AuthController {
       res.status(501).send({ error: error.message });
     }
   }
+
+  adminRegister = async(req, res) => {  
+    try {
+      const result = await AdminService.createAdmin(req.body);
+      console.log(result, "inside contorller");
+      const tokens = await TokenService.generateAuthTokens(result);
+      console.log(tokens, "inside controller");
+      res.status(201).send({ message: "Admin Registration successful", result, tokens });
+    } catch (error) {
+        res.status(501).send({ error: error.message });
+    }
+}
+
+  adminLogin = async(req, res) => {
+    try{
+      const result = await AuthService.adminLogin(req.body);
+      const tokens = await TokenService.generateAuthTokens(result);
+      res.status(200).send({ message: "Admin Login successful", result, tokens });
+    }catch(error){
+      res.status(501).send({ error: error.message });
+    }
+}
 }
 
 module.exports = new AuthController();

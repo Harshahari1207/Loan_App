@@ -10,8 +10,8 @@ class UserController{
           res.status(500).json({ error: error.message });
         }
       };
-
-    getAUser = async (req, res) => {
+      
+      getAUser = async (req, res) => {
         try {
           const user = await UserService.getAUser(req.params.id);
           res.status(200).json(user);
