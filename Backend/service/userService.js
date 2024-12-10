@@ -22,6 +22,7 @@ class UserService {
   async getAUser(id){
     return await User.findById(id);
   }
+  
 }
 
 module.exports = new UserService();

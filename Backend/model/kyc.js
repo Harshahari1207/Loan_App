@@ -11,7 +11,7 @@ const kycSchema = mongoose.Schema({
         required: true,
     },
     aadharNumber: {
-        type: String,
+        type: Number,
         required: true,
     },
     customerId: {
