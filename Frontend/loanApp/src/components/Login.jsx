@@ -33,7 +33,7 @@ const Login = () => {
       console.log(response)
       localStorage.setItem("name", response.data.result.name);
       localStorage.setItem("token", response.data.tokens.access.token);
-      localStorage.setItem("userId", response.data.result._id);
+      localStorage.setItem("customerId", response.data.result._id);
       localStorage.setItem("type", type);
       setErrorMessage("")
       history("/");
