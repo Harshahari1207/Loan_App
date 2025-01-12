@@ -11,6 +11,7 @@ class KycController {
   };
   getKyc = async (req, res) => {
     try {
+        console.log(req.params.id)
       const result = await KycService.getKyc(req.params.id);
       res.status(200).json(result);
     } catch (error) {

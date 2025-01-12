@@ -8,8 +8,10 @@ const CustomerDashboard = () => {
     loanDate: "",
   });
   const [loans, setLoans] = useState([]);
+  const [kyc, setKyc] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const BEARER_TOKEN = localStorage.getItem("token");
+  const customerId = localStorage.getItem("customerId");
   const handleLoanFormChange = (e) => {
     setLoanForm({
       ...loanForm,
@@ -21,7 +23,7 @@ const CustomerDashboard = () => {
     console.log(loanForm);
     const data = {
       ...loanForm,
-      customerId: localStorage.getItem("customerId"),
+      customerId: customerId,
     };
     try {
       const res = await axios.post("http://localhost:8082/api/loans", data, {
@@ -44,21 +46,22 @@ const CustomerDashboard = () => {
         loanId: loanId,
         panNumber: e.target.panNumber.value,
         aadharNumber: e.target.aadharNumber.value,
+        customerId: customerId,
       };
       const res = await axios.post(
-        "http://localhost:8082/api/kyc/" + loanId,
+        "http://localhost:8082/api/customers/kyc/",
         data,
         { headers: { Authorization: `Bearer ${BEARER_TOKEN}` } }
       );
+      getKyc(customerId);
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
   };
   const getLoans = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:8082/api/loans/customer/" +
-          localStorage.getItem("customerId"),
+        "http://localhost:8082/api/loans/customer/" + customerId,
         { headers: { Authorization: `Bearer ${BEARER_TOKEN}` } }
       );
       console.log(res);
@@ -67,9 +70,47 @@ const CustomerDashboard = () => {
       console.log(error);
     }
   };
+  const updateKycInCustomer = async (data, loanId) => {
+    try {
+      const updatedData = {
+        ...data,
+        kyc: "completed",
+      };
+      const result = await axios.put(
+        "http://localhost:8082/api/loans/" + loanId,
+        updatedData,
+        { headers: { Authorization: `Bearer ${BEARER_TOKEN}` } }
+      );
+      if (result.status === 200) {
+        setKyc(true);
+      }
+      console.log("updatedKyc of Loan", result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getKyc = async (customerId) => {
+    try {
+      const result = await axios.get(
+        "http://localhost:8082/api/customers/kyc/customer/" + customerId,
+        { headers: { Authorization: `Bearer ${BEARER_TOKEN}` } }
+      );
+
+      if (result.status === 200) {
+        loans.forEach(async (loan) => {
+          if (loan.kyc === "Pending") {
+            await updateKycInCustomer(loan, loan._id);
+          }
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
     getLoans();
-  }, []);
+    getKyc(customerId);
+  }, [kyc]);
   return (
     <div>
       <h1 className="text-center">Customer Dashboard</h1>
@@ -129,7 +170,7 @@ const CustomerDashboard = () => {
                 <p className="card-text">Loan Amount: {loan.loanAmount}</p>
                 <p className="card-text">Loan Date: {loan.loanDate}</p>
                 <p className="card-text">Loan Status: {loan.loanStatus}</p>
-                {loan.kyc === "Pending" && (
+                {kyc !== true ? (
                   <>
                     <h5>Kyc Pending-Complete your verification</h5>
                     <form onSubmit={(e) => handleKyc(e, loan._id)}>
@@ -158,6 +199,8 @@ const CustomerDashboard = () => {
                       </button>
                     </form>
                   </>
+                ) : (
+                  <p className="card-text">Kyc: {loan.kyc}</p>
                 )}
               </div>
             </div>
