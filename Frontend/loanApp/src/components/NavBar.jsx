@@ -5,7 +5,7 @@ const NavBar = () => {
   const history = useNavigate();
 
   const handleLogout = (e) => {
-    e.preventDefault(); 
+    // e.preventDefault(); 
     localStorage.clear();
     history("/"); 
   };

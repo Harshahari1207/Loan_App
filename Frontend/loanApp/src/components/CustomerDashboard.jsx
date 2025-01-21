@@ -30,6 +30,7 @@ const CustomerDashboard = () => {
         headers: { Authorization: `Bearer ${BEARER_TOKEN}` },
       });
       if (res.status === 201) {
+        getLoans();
         setErrorMessage("");
       }
       console.log(res);
@@ -95,9 +96,10 @@ const CustomerDashboard = () => {
         "http://localhost:8082/api/customers/kyc/customer/" + customerId,
         { headers: { Authorization: `Bearer ${BEARER_TOKEN}` } }
       );
-
+      console.log(result);
       if (result.status === 200) {
         loans.forEach(async (loan) => {
+          console.log(loan)
           if (loan.kyc === "Pending") {
             await updateKycInCustomer(loan, loan._id);
           }
@@ -170,7 +172,7 @@ const CustomerDashboard = () => {
                 <p className="card-text">Loan Amount: {loan.loanAmount}</p>
                 <p className="card-text">Loan Date: {loan.loanDate}</p>
                 <p className="card-text">Loan Status: {loan.loanStatus}</p>
-                {kyc !== true ? (
+                {loan.kyc !== "completed" ? (
                   <>
                     <h5>Kyc Pending-Complete your verification</h5>
                     <form onSubmit={(e) => handleKyc(e, loan._id)}>
