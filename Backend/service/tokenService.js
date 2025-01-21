@@ -1,9 +1,10 @@
 const jwt = require("jsonwebtoken");
 
 class TokenService {
-  generateToken = (userId, expires, type, secret) => {
+  generateToken = (userId, role, expires, type, secret) => {
     const payload = {
       sub: userId,
+      role: role,
       iat: Math.floor(Date.now() / 1000),
       exp: expires,
       type,
@@ -12,11 +13,12 @@ class TokenService {
     return jwt.sign(payload, secret);
   };
 
-  generateAuthTokens = async (user) => {
+  generateAuthTokens = async (user, role) => {
       console.log("inside tokenservice");
     const accessTokenExpires = Math.floor(Date.now() / 1000) + 60 * 150;
     const token = this.generateToken(
       user._id,
+      role,
       accessTokenExpires,
       "access",
       "secretPass"

@@ -1,5 +1,6 @@
 const passport = require("passport");
 const User = require("../model/user");
+const Admin = require("../model/admin");
 const {Strategy: JwtStrategy, ExtractJwt} = require("passport-jwt");
 
 const SECRET_KEY = "secretPass";
@@ -11,7 +12,14 @@ const jwtOptions = {
 
 const jwtStrategy = new JwtStrategy(jwtOptions, async(payload, done) => {
     try {
-        const user = await User.findById(payload.sub);
+        console.log(payload);
+        let user;
+        if(payload.role == "user"){
+            user = await User.findById(payload.sub);
+        }
+        if(payload.role == "admin"){
+            user = await Admin.findById(payload.sub);
+        }
         if(user){
             return done(null, user);
         }
