@@ -99,7 +99,7 @@ const CustomerDashboard = () => {
       console.log(result);
       if (result.status === 200) {
         loans.forEach(async (loan) => {
-          console.log(loan)
+          console.log(loan);
           if (loan.kyc === "Pending") {
             await updateKycInCustomer(loan, loan._id);
           }
@@ -163,47 +163,49 @@ const CustomerDashboard = () => {
           </button>
         </form>
       </div>
-      <div className="container row m-4 items-center">
+      <div className="row m-4 items-center">
         {loans.length > 0 &&
           loans.map((loan) => (
-            <div className="col-sm-5 card m-3">
-              <div className="card-body">
-                <h5 className="card-title">{loan.loanDescription}</h5>
-                <p className="card-text">Loan Amount: {loan.loanAmount}</p>
-                <p className="card-text">Loan Date: {loan.loanDate}</p>
-                <p className="card-text">Loan Status: {loan.loanStatus}</p>
-                {loan.kyc !== "completed" ? (
-                  <>
-                    <h5>Kyc Pending-Complete your verification</h5>
-                    <form onSubmit={(e) => handleKyc(e, loan._id)}>
-                      <div className="form-group mb-3">
-                        <label>PAN Card Number:</label>
-                        <input
-                          type="text"
-                          name="panNumber"
-                          className="form-control"
-                          placeholder="Enter the PAN card number"
-                          required
-                        />
-                      </div>
-                      <div className="form-group mb-3">
-                        <label>Aadhaar Card Number:</label>
-                        <input
-                          type="number"
-                          name="aadharNumber"
-                          className="form-control"
-                          placeholder="Enter the Aadhaar card number"
-                          required
-                        />
-                      </div>
-                      <button type="submit" className="btn btn-primary">
-                        Submit KYC
-                      </button>
-                    </form>
-                  </>
-                ) : (
-                  <p className="card-text">Kyc: {loan.kyc}</p>
-                )}
+            <div className="col-md-4 col-sm-6">
+              <div className="card m-3">
+                <div className="card-body">
+                  <h5 className="card-title">{loan.loanDescription}</h5>
+                  <p className="card-text">Loan Amount: {loan.loanAmount}</p>
+                  <p className="card-text">Loan Date: {loan.loanDate}</p>
+                  <p className="card-text">Loan Status: {loan.loanStatus}</p>
+                  {loan.kyc !== "completed" ? (
+                    <>
+                      <h5>Kyc Pending-Complete your verification</h5>
+                      <form onSubmit={(e) => handleKyc(e, loan._id)}>
+                        <div className="form-group mb-3">
+                          <label>PAN Card Number:</label>
+                          <input
+                            type="text"
+                            name="panNumber"
+                            className="form-control"
+                            placeholder="Enter the PAN card number"
+                            required
+                          />
+                        </div>
+                        <div className="form-group mb-3">
+                          <label>Aadhaar Card Number:</label>
+                          <input
+                            type="number"
+                            name="aadharNumber"
+                            className="form-control"
+                            placeholder="Enter the Aadhaar card number"
+                            required
+                          />
+                        </div>
+                        <button type="submit" className="btn btn-primary">
+                          Submit KYC
+                        </button>
+                      </form>
+                    </>
+                  ) : (
+                    <p className="card-text">Kyc: {loan.kyc}</p>
+                  )}
+                </div>
               </div>
             </div>
           ))}
