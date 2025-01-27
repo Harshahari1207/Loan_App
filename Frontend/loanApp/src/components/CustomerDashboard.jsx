@@ -144,7 +144,7 @@ const CustomerDashboard = () => {
               name="loanAmount"
               className="form-control"
               placeholder="Enter loan amount"
-              min={999999999}
+              max={999999999}
               value={loanForm.loanAmount}
               onChange={handleLoanFormChange}
               required
