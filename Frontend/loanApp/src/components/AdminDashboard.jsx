@@ -24,7 +24,7 @@ const AdminDashboard = () => {
     try {
       console.log(data);
       const res = await axios.put(
-        "http://localhost:8082/api/admin/updateLoan/" + loanId,
+        "https://loan-app-i6lc.onrender.com/api/admin/updateLoan/" + loanId,
         data,
         {
           headers: { Authorization: `Bearer ${BEARER_TOKEN}` },

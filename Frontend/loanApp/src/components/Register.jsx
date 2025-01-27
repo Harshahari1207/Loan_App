@@ -47,13 +47,13 @@ const Register = () => {
     };
     try {
       const response = await axios.post(
-        "http://localhost:8082/api/auth/register",
+        "https://loan-app-i6lc.onrender.com/api/auth/register",
         data
       );
-      console.log(response, "Inside the register function")
+      console.log(response, "Inside the register function");
       if (response.status === 201) {
         console.log(response);
-        history("/");
+        history("/login");
       }
     } catch (error) {
       setErrorMessage("Error accurred during registration", error);
@@ -65,21 +65,21 @@ const Register = () => {
       <div className="container pt-5">
         <div className="row justify-content-center ">
           <div className="col-md-6 text-center d-flex align-items-center">
-            <div className="">
-              <div className="">
-                <h3 className="">
-                  This Is New Era Money Always In Your Mobile
-                </h3>
-                <p className="card-text">
-                  A platform for banks and financial services providers to
-                  connect with their customers.
-                </p>
-              </div>
+            <div className="col-md-6 text-center text-md-start">
+              <h1 className="text-black fs-1 fw-bold ">
+                A Personal Loan for Multiple Purpose!
+              </h1>
+              <p className="fw-lighter">
+                Get access to quick and easy personal loans tallored to your
+                needs. Whether you're planning a vacation, consolidating debt,
+                or making a big purchase, we've got you covered. Apply online
+                and get approved in minutes.
+              </p>
             </div>
           </div>
           <div className="col-md-6">
-            <div className="card shadow bg-light">
-              <div className="card-body">
+            <div id="box" className="card shadow">
+              <div className="card-body ">
                 <h3 className="card-title text-center mb-4">Register</h3>
                 <form onSubmit={handleSubmit}>
                   {/* Name */}

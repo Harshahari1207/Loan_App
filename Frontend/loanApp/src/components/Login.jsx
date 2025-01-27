@@ -24,26 +24,23 @@ const Login = () => {
     return specialChars.some((char) => password.includes(char));
   };
   const postLogin = async (url) => {
-    try{
-    const response = await axios.post(
-      url,
-      formData
-    );
-    if ((response.status = 200)) {
-      console.log(response)
-      localStorage.setItem("name", response.data.result.name);
-      localStorage.setItem("token", response.data.tokens.access.token);
-      localStorage.setItem("customerId", response.data.result._id);
-      localStorage.setItem("type", type);
-      setErrorMessage("")
-      history("/");
-    } else {
-      alert("Invalid credentials");
+    try {
+      const response = await axios.post(url, formData);
+      if ((response.status = 200)) {
+        console.log(response);
+        localStorage.setItem("name", response.data.result.name);
+        localStorage.setItem("token", response.data.tokens.access.token);
+        localStorage.setItem("customerId", response.data.result._id);
+        localStorage.setItem("type", type);
+        setErrorMessage("");
+        history("/");
+      } else {
+        alert("Invalid credentials");
+      }
+    } catch (error) {
+      setErrorMessage("Invalid credentials/Errror logging in" + error);
     }
-  }catch(error){
-    setErrorMessage("Invalid credentials/Errror logging in" + error);
-  }
-  }
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.password.length < 6) {
@@ -58,13 +55,13 @@ const Login = () => {
     }
     console.log("Form Data Submitted:", formData);
     try {
-      if(type === "admin"){
-        await postLogin("http://localhost:8082/api/admin/login");
+      if (type === "admin") {
+        await postLogin("https://loan-app-i6lc.onrender.com/api/admin/login");
       }
-      if(type === "customer"){
-        await postLogin("http://localhost:8082/api/auth/login");
+      if (type === "customer") {
+        await postLogin("https://loan-app-i6lc.onrender.com/api/auth/login");
       }
-      
+
       // localStorage.setItem("username", response.data.result.name);
       // console.log(response);
     } catch (error) {
@@ -77,24 +74,40 @@ const Login = () => {
       <div className="container pt-5">
         <div className="row justify-content-center ">
           <div className="col-md-6 text-center d-flex align-items-center pb-5">
-            <div className="">
-              <div className="">
-                <h3 className="">
-                  This Is New Era Money Always In Your Mobile
-                </h3>
-                <p className="card-text">
-                  A platform for banks and financial services providers to
-                  connect with their customers.
-                </p>
-              </div>
+            <div className="col-md-6 text-center text-md-start">
+              <h1 className="text-black fs-1 fw-bold ">
+                A Personal Loan for Multiple Purpose!
+              </h1>
+              <p className="fw-lighter">
+                Get access to quick and easy personal loans tallored to your
+                needs. Whether you're planning a vacation, consolidating debt,
+                or making a big purchase, we've got you covered. Apply online
+                and get approved in minutes.
+              </p>
             </div>
           </div>
           <div className="col-md-6">
-            <div className="card bg-light shadow">
+            <div id="box" className="card shadow">
               <div className="card-body">
                 <div className="toggleButton flex">
-                  <button className={`btn ${isAdmin ? "active btn-primary" : ""}`} onClick={() => {setType("admin"); setIsAdmin(true)}}>Admin</button>
-                  <button className={`btn  ${isAdmin ? "" : "active btn-primary"}`}onClick={() => {setType("customer"); setIsAdmin(false)}} >Customer</button>
+                  <button
+                    className={`btn ${isAdmin ? "active btn-primary" : ""}`}
+                    onClick={() => {
+                      setType("admin");
+                      setIsAdmin(true);
+                    }}
+                  >
+                    Admin
+                  </button>
+                  <button
+                    className={`btn  ${isAdmin ? "" : "active btn-primary"}`}
+                    onClick={() => {
+                      setType("customer");
+                      setIsAdmin(false);
+                    }}
+                  >
+                    Customer
+                  </button>
                 </div>
                 <h3 className="card-title text-center mb-4">Login</h3>
                 <form onSubmit={handleSubmit}>

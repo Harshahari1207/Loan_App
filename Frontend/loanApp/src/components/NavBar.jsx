@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate, Link } from "react-router-dom";
-
+import logo from "../assets/logo.png";
 const NavBar = () => {
   const history = useNavigate();
 
@@ -13,7 +13,7 @@ const NavBar = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light w-full d-flex justify-content-between align-items-center p-3">
       <Link className="navbar-brand" to="/">
-        {/* <img className="logo" src={logo} alt="" /> */}
+        <img className="logo rounded-circle" src={logo} alt="" width="50px" />
       </Link>
       <button
         className="navbar-toggler"

@@ -20,17 +20,22 @@ const CustomerDashboard = () => {
   };
   const handleApplyLoan = async (e) => {
     e.preventDefault();
-    console.log(loanForm);
+    console.log(kyc);
     const data = {
       ...loanForm,
       customerId: customerId,
     };
     try {
-      const res = await axios.post("http://localhost:8082/api/loans", data, {
+      const res = await axios.post("https://loan-app-i6lc.onrender.com/api/loans", data, {
         headers: { Authorization: `Bearer ${BEARER_TOKEN}` },
       });
       if (res.status === 201) {
         getLoans();
+        setLoanForm({
+          loanDescription: "",
+          loanAmount: "",
+          loanDate: "",
+        })
         setErrorMessage("");
       }
       console.log(res);
@@ -50,7 +55,7 @@ const CustomerDashboard = () => {
         customerId: customerId,
       };
       const res = await axios.post(
-        "http://localhost:8082/api/customers/kyc/",
+        "https://loan-app-i6lc.onrender.com/api/customers/kyc/",
         data,
         { headers: { Authorization: `Bearer ${BEARER_TOKEN}` } }
       );
@@ -62,11 +67,12 @@ const CustomerDashboard = () => {
   const getLoans = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:8082/api/loans/customer/" + customerId,
+        "https://loan-app-i6lc.onrender.com/api/loans/customer/" + customerId,
         { headers: { Authorization: `Bearer ${BEARER_TOKEN}` } }
       );
       console.log(res);
       setLoans(res.data);
+      if(loans.forEach((loan)=>{if(loan.kyc==="completed"){setKyc(true)}}));
     } catch (error) {
       console.log(error);
     }
@@ -78,7 +84,7 @@ const CustomerDashboard = () => {
         kyc: "completed",
       };
       const result = await axios.put(
-        "http://localhost:8082/api/loans/" + loanId,
+        "https://loan-app-i6lc.onrender.com/api/loans/" + loanId,
         updatedData,
         { headers: { Authorization: `Bearer ${BEARER_TOKEN}` } }
       );
@@ -93,7 +99,7 @@ const CustomerDashboard = () => {
   const getKyc = async (customerId) => {
     try {
       const result = await axios.get(
-        "http://localhost:8082/api/customers/kyc/customer/" + customerId,
+        "https://loan-app-i6lc.onrender.com/api/customers/kyc/customer/" + customerId,
         { headers: { Authorization: `Bearer ${BEARER_TOKEN}` } }
       );
       console.log(result);
@@ -117,7 +123,7 @@ const CustomerDashboard = () => {
     <div>
       <h1 className="text-center">Customer Dashboard</h1>
       <div className="container mt-4 col-md-4 ">
-        <form onSubmit={handleApplyLoan} className="mb-4">
+        <form onSubmit={handleApplyLoan} className="card mb-4">
           <div className="form-group mb-3">
             <label>Loan Description</label>
             <input
@@ -138,6 +144,7 @@ const CustomerDashboard = () => {
               name="loanAmount"
               className="form-control"
               placeholder="Enter loan amount"
+              min={999999999}
               value={loanForm.loanAmount}
               onChange={handleLoanFormChange}
               required
