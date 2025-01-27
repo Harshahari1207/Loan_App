@@ -7,7 +7,7 @@ const AdminDashboard = () => {
 
   const getLoans = async () => {
     try {
-      const res = await axios.get("http://localhost:8082/api/admin/allLoans/", {
+      const res = await axios.get("https://loan-app-i6lc.onrender.com/api/admin/allLoans/", {
         headers: { Authorization: `Bearer ${BEARER_TOKEN}` },
       });
       console.log(res);
