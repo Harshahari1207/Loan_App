@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const LandingPage = () => {
   return (
     <div>
@@ -20,7 +22,7 @@ const LandingPage = () => {
             big purchase, we've got you covered. Apply online and get approved
             in minutes.
           </p>
-          <a href="/register" className="btn btn-primary" >Apply Now</a>
+          <Link to="/register" className="btn btn-primary" >Apply Now</Link>
         </div>
       </div>
     </div>
