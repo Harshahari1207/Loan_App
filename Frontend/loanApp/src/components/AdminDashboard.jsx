@@ -1,89 +1,61 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const AdminDashboard = () => {
-  const [loans, setLoans] = useState([]);
+  const [users, setUsers] = useState([]);
   const BEARER_TOKEN = localStorage.getItem("token");
+  const history = useNavigate();
 
-  const getLoans = async () => {
+  const getUsers = async () => {
     try {
-      const res = await axios.get("https://loan-app-i6lc.onrender.com/api/admin/allLoans/", {
-        headers: { Authorization: `Bearer ${BEARER_TOKEN}` },
-      });
+      const res = await axios.get(
+        "https://loan-app-i6lc.onrender.com/api/admin/users",
+        { headers: { Authorization: `Bearer ${BEARER_TOKEN}` } }
+      );
       console.log(res);
-      setLoans(res.data);
+      if (res.status === 200) {
+        setUsers(res.data);
+      }
     } catch (error) {
       console.log(error);
     }
   };
   useEffect(() => {
-    getLoans();
+    getUsers();
   }, []);
 
-  const updateLoan = async(loanId, data) => {
-    try {
-      console.log(data);
-      const res = await axios.put(
-        "https://loan-app-i6lc.onrender.com/api/admin/updateLoan/" + loanId,
-        data,
-        {
-          headers: { Authorization: `Bearer ${BEARER_TOKEN}` },
-        }
-      );
-      console.log(res);
-      getLoans();
-    } catch (error) {
-      console.log(error);
-    }
+  
+  const updateUserIdInloacalStorage = (userId) => {
+    localStorage.setItem("userId", userId);
+    history("/adminUser");
   }
-  const approveLoan = async (loanId) => {
-    try {
-      const loan = loans.find((loan) => loan._id === loanId);
-      const data = {
-        ...loan,
-        loanStatus: "Approved",
-      };
-      updateLoan(loanId, data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const rejectLoan = async (loanId) => {
-    try {
-      const loan = loans.find((loan) => loan._id === loanId);
-      console.log(loan);
-      const data = {
-        ...loan,
-        loanStatus: "Cancelled",
-      };
-      updateLoan(loanId, data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  
   return (
     <div>
-      <h1>Admin Dashboard</h1>
-      <div className="row m-4 items-center">
-        {loans.length > 0 &&
-          loans.map((loan) => (
-            <div className="col-sm-3 mb-3">
-              <div className="card p-3">
-                <div className="card-body">
-                  <h5 className="card-title">{loan.loanDescription}</h5>
-                  <p className="card-text">Loan Amount: {loan.loanAmount}</p>
-                  <p className="card-text">Loan Date: {loan.loanDate}</p>
-                  <p className="card-text">Loan Status: {loan.loanStatus}</p>
-                  <p className="card-text">Kyc: {loan.kyc}</p>
-                </div>
-                <div className="card-footer d-flex justify-content-between">
-                  <button className="btn btn-primary p-2 " onClick={()=>rejectLoan(loan._id)}>Cancel</button>
-                  <button className="btn btn-primary p-2 " onClick={()=>approveLoan(loan._id)}>Approve</button>
-                </div>
-              </div>
-            </div>
-          ))}
+      <h1 className="text-center text-secondary-emphasis text-shadow text-uppercase">ALL USERS</h1>
+      <div className="m-4 items-center d-flex justify-content-center car">
+        <table className="table table-bordered table-hover table-striped">
+          <thead className="rounded-pill">
+            <tr className="text-center text-white bg-secondary shadow mb-2 rounded">
+              <th className="rounded">Name</th>
+              <th>Email</th>
+              <th>View more <details></details></th>
+            </tr>
+          </thead>
+          <tbody>
+          {users.length > 0 &&
+            users.map((user) => (
+              <tr className="text-center bg-light rounded-pill shadow"> 
+                <td className="">{user.name}</td>
+                <td>{user.email}</td>
+                <td><button className="btn btn-primary" onClick={()=>updateUserIdInloacalStorage(user._id)}>visit</button></td>
+              </tr>
+            ))}
+            </tbody>
+        </table>
       </div>
+      
     </div>
   );
 };
