@@ -70,7 +70,7 @@ const Login = () => {
   };
 
   return (
-    <div className="home">
+    <div className="home height-full">
       <div className="container pt-5">
         <div className="row justify-content-center ">
           <div className="col-md-6 text-center d-flex align-items-center pb-5">

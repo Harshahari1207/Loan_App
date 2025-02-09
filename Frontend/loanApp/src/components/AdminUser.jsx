@@ -85,7 +85,7 @@ const AdminUser = () => {
     return `${day}-${month}-${year}`;
   };
   return (
-    <div className="row m-4 items-center">
+    <div className="row m-4 items-center height-full">
       <div className="card d-flex justify-content-center align-items-center box-shadow my-4">
         <div className="card-body">
           <h5 className="card-title">User Details</h5>

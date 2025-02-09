@@ -4,7 +4,7 @@ const LandingPage = () => {
   return (
     <div>
       {/* <h1>Loan App</h1> */}
-      <div className="row mt-5">
+      <div className="row mt-5 height-full">
         <div className="col-md-6">
           <img
             src="https://www.konnectplugins.com/loanica/images/banner.svg"
