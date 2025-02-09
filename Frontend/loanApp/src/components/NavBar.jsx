@@ -30,18 +30,18 @@ const NavBar = () => {
         {localStorage.getItem("name") ? (
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
-              <Link className="nav-link" to="/">
+              <Link className="nav-link mouse-cursor" to="/">
                 {/* <FontAwesomeIcon icon={faUser} />{"  "} */}
                  Welcome {localStorage.getItem("name")}
               </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/" onClick={handleLogout}>
+              <a className="nav-link mouse-cursor"  href="/" onClick={handleLogout}>
                 Logout
               </a>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/">
+              <Link className="nav-link mouse-cursor" to="/">
                 Dashboard
               </Link>
             </li>
@@ -49,12 +49,12 @@ const NavBar = () => {
         ) : (
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
-              <Link className="nav-link" to="/login">
+              <Link className="nav-link mouse-cursor" to="/login">
                 Login
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/register">
+              <Link className="nav-link mouse-cursor" to="/register">
                 Register
               </Link>
             </li>
