@@ -163,8 +163,9 @@ const CustomerDashboard = () => {
               required
             />
           </div>
-
+          {/* Error message */}
           <p className="text-danger">{errorMessage}</p>
+          {/* Apply loan submit button */}
           <button type="submit" className="btn btn-primary">
             Apply Loan
           </button>
@@ -180,6 +181,7 @@ const CustomerDashboard = () => {
                   <p className="card-text">Loan Amount: {loan.loanAmount}</p>
                   <p className="card-text">Loan Date: {loan.loanDate}</p>
                   <p className="card-text">Loan Status: {loan.loanStatus}</p>
+                  {/* Kyc display according to kyc completion or not */}
                   {loan.kyc !== "completed" ? (
                     <>
                       <h5>Kyc Pending-Complete your verification</h5>
