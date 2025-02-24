@@ -112,7 +112,7 @@ const AdminUser = () => {
                   className="btn btn-primary p-2 "
                   onClick={() => rejectLoan(loan._id)}
                 >
-                  Cancel
+                  Reject
                 </button>
                 <button
                   className="btn btn-primary p-2 "
